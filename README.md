@@ -73,3 +73,12 @@ The `TexturePack` will use the first object in your first `AltTexture` listed in
 
 You can also change the text of objects you are not retexturing by setting the following value:
 - `localization`, set to `true` when using a localization file,  alternatively a table of alternate localizations for your new textures:
+
+Textures can be set to be disabled by default by adding them to an additional table listing `AltTexture` keys:
+```lua
+{
+  textures = {'mod_prefix_alttexturekey', 'mod_prefix_disabledalttexturekey'}
+  toggle_textures = {'mod_prefix_disabledalttexturekey'}
+  -- Textures listed in toggle_textures must be included in textures as well
+}
+```
