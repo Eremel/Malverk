@@ -194,13 +194,20 @@ TexturePack = SMODS.GameObject:extend {
             new_textures[#new_textures + 1] = temp.key
         end
         self.textures = new_textures
+        local new_toggle_textures = {}
+        for _, key in ipairs(self.toggle_textures or {}) do
+            local temp = {key = key}
+            SMODS.modify_key(temp, 'alt_tex', true)
+            new_toggle_textures[#new_toggle_textures + 1] = temp.key
+        end
+        self.toggle_textures = new_toggle_textures
         if not Malverk.config.texture_configs then Malverk.config.texture_configs = {} end
         if not Malverk.config.texture_configs[self.key] then
             Malverk.config.texture_configs[self.key] = {}
             for _, key in ipairs(self.textures) do
                 Malverk.config.texture_configs[self.key][key] = true
             end
-            for _, key in ipairs(self.toggle_textures or {}) do
+            for _, key in ipairs(self.toggle_textures) do
                 Malverk.config.texture_configs[self.key][key] = false
             end
         else
@@ -209,7 +216,7 @@ TexturePack = SMODS.GameObject:extend {
                     Malverk.config.texture_configs[self.key][key] = true
                 end
             end
-            for _, key in ipairs(self.toggle_textures or {}) do
+            for _, key in ipairs(self.toggle_textures) do
                 if type(Malverk.config.texture_configs[self.key][key]) ~= 'boolean' then
                     Malverk.config.texture_configs[self.key][key] = false
                 end
