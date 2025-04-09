@@ -13,7 +13,7 @@ return {
 			-- ['b_Joker'] = 'Jolly',
 			-- ['b_Tarot'] = 'Tarocchi',
 			-- ['b_Planet'] = 'Carte Pianeta',
-			-- ['b_Spectral'] = 'Cardte Spettrali',
+			-- ['b_Spectral'] = 'Carte Spettrali',
 			-- ['b_Enhanced'] = 'Potenziamenti',
 			-- ['b_Blind'] = 'Bui',
 			-- ['b_Tag'] = 'Patti',
