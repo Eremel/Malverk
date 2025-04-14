@@ -6,7 +6,7 @@ return {
 			b_apply = '应用',
 			b_applied = '起效',
 			b_remove = '移除',
-			b_change = '改变',
+			b_change = '变更',
 			malverk_low = '低',
 			malverk_high = '高',
 			-- ['b_Cards'] = '游戏牌',
