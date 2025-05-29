@@ -294,7 +294,7 @@ function Card:highlight(highlighted)
         return
     end
     card_highlight(self, highlighted)
-    if highlighted and self.area and self.area.config.texture_pack then
+    if highlighted and self.area.config.texture_pack then
         self.children.use_button = UIBox{
             definition = create_texture_pack_buttons(self, self.texture_selected), 
             config = {align = 'cm', offset = {x=0, y=0.4}, parent = self}
@@ -318,7 +318,10 @@ function create_texture_pack_buttons(card, active)
         }}
         config = {n=G.UIT.R, config={minh = 1.45}}
         spacer = {n=G.UIT.R, config={minh = 0.65}}
-        if #TexturePacks[card.params.texture_pack].textures + (TexturePacks[card.params.texture_pack].toggle_textures and #TexturePacks[card.params.texture_pack].toggle_textures) > 1 then 
+        local pack = TexturePacks[card.params.texture_pack]
+local textures_len = #(pack.textures or {})
+local toggle_len = #(pack.toggle_textures or {})
+if textures_len + toggle_len > 1 then 
             local settings_sprite = Sprite(0, 0, 0.5, 0.5, G.ASSET_ATLAS['malverk_settings'] ,{x=0, y=0})
             config = {n=G.UIT.R, config={align = 'cr', minw = 1.6*G.CARD_W}, nodes={
                 {n=G.UIT.R, config={minh = 0.65}},
