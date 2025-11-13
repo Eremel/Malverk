@@ -1,7 +1,7 @@
 {
     "name": "Malverk",
     "id": "malverk",
-    "version": "1.1.3",
+    "version": "1.1.3a",
     "website_url": "https://github.com/Eremel/Malverk",
     "description": "Malverk is an all-in-one texture manager. With an inbuilt API for AltTextures and TexturePacks, Malverk integrates a simple UI to customise which textures are applied to your game whenever you wish.",
     "prefix": "malverk",

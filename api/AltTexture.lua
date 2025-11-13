@@ -225,18 +225,3 @@ TexturePack = SMODS.GameObject:extend {
         table.insert(TexturePacks_Utils.keys, self.key)
     end
 }
-
-function SMODS.GameObject:__call(o)
-        o = o or {}
-        o.mod = o.mod or SMODS.current_mod
-        setmetatable(o, self)
-        for _, v in ipairs(o.required_params or {}) do
-            assert(not (o[v] == nil), ('Missing required parameter for %s declaration: %s'):format(o.set, v))
-        end
-        if o:check_duplicate_register() then return end
-        -- also updates o.prefix_config
-        SMODS.add_prefixes(self, o)
-        if o:check_duplicate_key() then return end
-        o:register()
-        return o
-    end
