@@ -183,7 +183,8 @@ TexturePack = SMODS.GameObject:extend {
             end
             TexturePacks['default'] = {
                 key = 'default',
-                textures = default_textures
+                textures = default_textures,
+                toggle_textures = {}
             }
             G.localization.descriptions.texture_packs = G.localization.descriptions.texture_packs or {default = {name = 'Base Game', text = {'Base game textures'}}}
         end
