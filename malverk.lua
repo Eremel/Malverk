@@ -8,44 +8,46 @@ assert(SMODS.load_file('utils/ui.lua'))()
 if Malverk.testing then SMODS.load_file('testing/test.lua')() end
 
 function Malverk.set_defaults()
-    local pack = TexturePacks['default']
-        for _, key in pairs(pack.textures) do
-            local texture = AltTextures[key]
-            local game_table = AltTextures_Utils.game_table[texture.set] or 'P_CENTERS'
-            for i, center in ipairs(texture.keys or {}) do
-                if G[game_table][center] then
-                    if texture.set == 'Seal' then
-                        G.P_SEALS[center].default_pos = G.P_SEALS[center].default_pos or copy_table(G[game_table][center].sprite_pos)
-                        G[game_table][center]:remove()
-                        G[game_table][center] = Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS['centers'], G.P_SEALS[center].default_pos)
-                    else
-                        G[game_table][center].atlas = texture.atlas.key
-                    end
-                    if center == 'c_soul' then
-                        G.default_soul = G.default_soul or Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS["centers"], G.P_CENTERS.soul.pos)
-                        G.shared_soul = G.default_soul
-                    end
-                    G[game_table][center].default_pos = G[game_table][center].default_pos or G[game_table][center].pos
-                    G[game_table][center].pos = G[game_table][center].default_pos
+    local pack = TexturePacks and TexturePacks['default']
+    if not pack or not pack.textures then return end
 
-                    G[game_table][center].default_soul = G[game_table][center].default_soul or G[game_table][center].soul_pos and copy_table(G[game_table][center].soul_pos) or "1"
-                    if G[game_table][center].default_soul == "1" then
-                        G[game_table][center].soul_pos = false
-                    else
-                        G[game_table][center].soul_pos = G[game_table][center].default_soul 
-                    end
+    for _, key in pairs(pack.textures) do
+        local texture = AltTextures[key]
+        local game_table = AltTextures_Utils.game_table[texture.set] or 'P_CENTERS'
+        for i, center in ipairs(texture.keys or {}) do
+            if G[game_table][center] then
+                if texture.set == 'Seal' then
+                    G.P_SEALS[center].default_pos = G.P_SEALS[center].default_pos or copy_table(G[game_table][center].sprite_pos)
+                    G[game_table][center]:remove()
+                    G[game_table][center] = Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS['centers'], G.P_SEALS[center].default_pos)
+                else
+                    G[game_table][center].atlas = texture.atlas.key
+                end
+                if center == 'c_soul' then
+                    G.default_soul = G.default_soul or Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS["centers"], G.P_CENTERS.soul.pos)
+                    G.shared_soul = G.default_soul
+                end
+                G[game_table][center].default_pos = G[game_table][center].default_pos or G[game_table][center].pos
+                G[game_table][center].pos = G[game_table][center].default_pos
 
-                    if texture.set == "Stake" or texture.set == 'Sticker' then
-                        G.default_stickers = G.default_stickers or Malverk.copy_stickers()
-                        for k, v in pairs(G.default_stickers) do
-                            G.shared_stickers[k]:remove()
-                            G.shared_stickers[k] = Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS[v.atlas.name or v.atlas.key], v.sprite_pos)
-                            if G['shared_sticker_'..k] then
-                                G['shared_sticker_'..k]:remove()
-                                G['shared_sticker_'..k] = Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS[v.atlas.name or v.atlas.key], v.sprite_pos)
-                            end
+                G[game_table][center].default_soul = G[game_table][center].default_soul or G[game_table][center].soul_pos and copy_table(G[game_table][center].soul_pos) or "1"
+                if G[game_table][center].default_soul == "1" then
+                    G[game_table][center].soul_pos = false
+                else
+                    G[game_table][center].soul_pos = G[game_table][center].default_soul 
+                end
+
+                if texture.set == "Stake" or texture.set == 'Sticker' then
+                    G.default_stickers = G.default_stickers or Malverk.copy_stickers()
+                    for k, v in pairs(G.default_stickers) do
+                        G.shared_stickers[k]:remove()
+                        G.shared_stickers[k] = Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS[v.atlas.name or v.atlas.key], v.sprite_pos)
+                        if G['shared_sticker_'..k] then
+                            G['shared_sticker_'..k]:remove()
+                            G['shared_sticker_'..k] = Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS[v.atlas.name or v.atlas.key], v.sprite_pos)
                         end
                     end
+                end
 
                     G[game_table][center].default_card_type_badge = G[game_table][center].default_card_type_badge or (G[game_table][center].set_card_type_badge and copy_table(G[game_table][center].set_card_type_badge) or '1')
                     if G[game_table][center].default_card_type_badge == '1' then
