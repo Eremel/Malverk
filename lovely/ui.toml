@@ -80,3 +80,20 @@ payload = '''
 end
 '''
 match_indent = true
+
+# This patch allows Malverk Atlases to be tagged to the correct mod - modifies smods code
+[[patches]]
+[patches.pattern]
+target = '=[SMODS _ "src/game_object.lua"]'
+match_indent = true
+position = 'at'
+pattern = '''
+assert(o.mod == nil, "Created object should not have \"mod\" field defined.")
+o.mod = SMODS.current_mod
+'''
+payload = '''
+-- Removed by Malverk
+-- assert(o.mod == nil, "Created object should not have \"mod\" field defined.")
+o.mod = o.mod or SMODS.current_mod
+'''
+
