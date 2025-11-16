@@ -79,13 +79,12 @@ function Malverk.get_keys_from_pool(set)
     return keys
 end
 
-
 AltTexture = SMODS.GameObject:extend {
     obj_table = AltTextures,
     obj_buffer = {},
     required_params = {
-        'key', -- same as atlas key
-        'set', -- type to apply atlas to
+        'key',
+        'set',
     },
     class_prefix = 'alt_tex',
     set = 'AltTexture',
@@ -94,15 +93,19 @@ AltTexture = SMODS.GameObject:extend {
     end,
     inject = function(self)
         G.localization.descriptions.alt_texture = G.localization.descriptions.alt_texture or {default = {name = 'Default', text = {'Example description'}}}
-        -- ensure type exists
-        if not G.P_CENTER_POOLS[self.set] and self.set ~= 'Blind' and self.set ~= 'Sticker' then sendWarnMessage(self.set .. ' does not exist. Texture '..self.key..' not injected.', 'Malverk: Alt Texture Initialization'); return end
+
+        if not G.P_CENTER_POOLS[self.set] and self.set ~= 'Blind' and self.set ~= 'Sticker' then
+            sendWarnMessage(self.set .. ' does not exist. Texture '..self.key..' not injected.', 'Malverk: Alt Texture Initialization')
+            return
+        end
+
         check_type_present(self.set)
         if self.frames then self.animated = true end
-        -- create the atlas for the new texture
+
         local atlas = SMODS.Atlas({
             key = self.key,
             path = self.path,
-            px = self.px or AltTextures_Utils.dimensions[self.set] and AltTextures_Utils.dimensions[self.set].px or 71, -- px and py are not required
+            px = self.px or AltTextures_Utils.dimensions[self.set] and AltTextures_Utils.dimensions[self.set].px or 71,
             py = self.py or AltTextures_Utils.dimensions[self.set] and AltTextures_Utils.dimensions[self.set].py or 95,
             obj_table = {},
             obj_buffer = {},
@@ -112,11 +115,12 @@ AltTexture = SMODS.GameObject:extend {
             mod = self.mod
         })
         atlas:inject()
+
         if self.soul then
             local soul_atlas = SMODS.Atlas({
                 key = self.key..'_soul',
                 path = self.soul,
-                px = self.px or AltTextures_Utils.dimensions[self.set] and AltTextures_Utils.dimensions[self.set].px or 71, -- px and py are not required
+                px = self.px or AltTextures_Utils.dimensions[self.set] and AltTextures_Utils.dimensions[self.set].px or 71,
                 py = self.py or AltTextures_Utils.dimensions[self.set] and AltTextures_Utils.dimensions[self.set].py or 95,
                 obj_table = {},
                 obj_buffer = {},
@@ -127,12 +131,13 @@ AltTexture = SMODS.GameObject:extend {
             soul_atlas:inject()
             self.soul_atlas = G.ASSET_ATLAS[self.key..'_soul']
         end
+
         if self.stickers then
             local dot_pos = string.find(self.path, "%.")
             local sticker_atlas = SMODS.Atlas({
                 key = self.key..'_stickers',
                 path = string.sub(self.path,1,dot_pos - 1)..'_stickers'..string.sub(self.path, dot_pos),
-                px = self.sticker_px or 71, -- px and py are not required
+                px = self.sticker_px or 71,
                 py = self.sticker_py or 95,
                 obj_table = {},
                 obj_buffer = {},
@@ -143,11 +148,12 @@ AltTexture = SMODS.GameObject:extend {
             sticker_atlas:inject()
             self.stickers = G.ASSET_ATLAS[self.key..'_stickers']
         end
-        -- store the atlas
+
         self.atlas = self.animated and G.ANIMATION_ATLAS[self.key] or G.ASSET_ATLAS[self.key]
-        self.columns = math.floor(self.atlas.image:getWidth()/self.atlas.px); self.original_sheet = self.original_sheet or not self.keys
+        self.columns = math.floor(self.atlas.image:getWidth()/self.atlas.px)
+        self.original_sheet = self.original_sheet or not self.keys
         self.keys = self.keys or Malverk.keys[self.set] or Malverk.get_keys_from_pool(self.set)
-        -- if first texture, create default texture
+
         if not AltTextures_Utils.selectors[self.set] then
             AltTextures_Utils.selectors[self.set] = {self.set}
             AltTextures[self.set] = {atlas = {}, keys = Malverk.keys[self.set] or Malverk.get_keys_from_pool(self.set), set = self.set}
@@ -156,6 +162,7 @@ AltTexture = SMODS.GameObject:extend {
             end
             SMODS.process_loc_text(G.localization.descriptions.alt_texture, self.set, {name = 'Default '..self.set, text = {'Base game texture'}})
         end
+
         table.insert(AltTextures_Utils.selectors[self.set], self.key)
     end
 }
@@ -166,28 +173,31 @@ TexturePacks_Utils = {keys = {'default'}}
 TexturePack = SMODS.GameObject:extend {
     obj_table = TexturePacks,
     obj_buffer = {},
-    required_params = {
-        'key',
-        'textures'
-    },
+    required_params = {'key','textures'},
     class_prefix = 'texpack',
     set = 'Texture Pack',
-    process_loc_text = function(self) -- LOC_TXT structure = name = string, text = table of strings
+
+    process_loc_text = function(self)
         SMODS.process_loc_text(G.localization.descriptions.texture_packs, self.key, self.loc_txt)
     end,
+
     inject = function(self)
         if not TexturePacks['default'] then
             local default_textures = {}
             for k,_ in pairs(AltTextures_Utils.selectors) do
                 table.insert(default_textures, k)
             end
+
             TexturePacks['default'] = {
                 key = 'default',
-                textures = default_textures,
-                toggle_textures = {}
+                textures = default_textures
+                -- no toggle_textures 
             }
-            G.localization.descriptions.texture_packs = G.localization.descriptions.texture_packs or {default = {name = 'Base Game', text = {'Base game textures'}}}
+
+            G.localization.descriptions.texture_packs =
+                G.localization.descriptions.texture_packs or {default = {name = 'Base Game', text = {'Base game textures'}}}
         end
+
         local new_textures = {}
         for _, key in ipairs(self.textures) do
             local temp = {key = key}
@@ -195,6 +205,7 @@ TexturePack = SMODS.GameObject:extend {
             new_textures[#new_textures + 1] = temp.key
         end
         self.textures = new_textures
+
         local new_toggles = {}
         for _, key in ipairs(self.toggle_textures or {}) do
             local temp = {key = key}
@@ -202,7 +213,9 @@ TexturePack = SMODS.GameObject:extend {
             new_toggles[#new_toggles + 1] = temp.key
         end
         self.toggle_textures = new_toggles
+
         if not Malverk.config.texture_configs then Malverk.config.texture_configs = {} end
+
         if not Malverk.config.texture_configs[self.key] then
             Malverk.config.texture_configs[self.key] = {}
             for _, key in ipairs(self.textures) do
@@ -223,6 +236,23 @@ TexturePack = SMODS.GameObject:extend {
                 end
             end
         end
+
         table.insert(TexturePacks_Utils.keys, self.key)
     end
 }
+
+function SMODS.GameObject:__call(o)
+    o = o or {}
+    o.mod = o.mod or SMODS.current_mod
+    setmetatable(o, self)
+    for _, v in ipairs(o.required_params or {}) do
+        assert(not (o[v] == nil), ('Missing required parameter for %s declaration: %s'):format(o.set, v))
+    end
+    if o:check_duplicate_register() then return end
+
+    SMODS.add_prefixes(self, o)
+
+    if o:check_duplicate_key() then return end
+    o:register()
+    return o
+end
