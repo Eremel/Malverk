@@ -387,11 +387,19 @@ function create_UIBox_texture_config(texture)
 end
 
 Malverk.texture_config_toggles = function(texture)
+    if not Malverk.config.texture_configs[texture] then
+        Malverk.config.texture_configs[texture] = {}
+    end
+
     local toggles = {n=G.UIT.R, config = {align = 'tm'}, nodes = {
         {n=G.UIT.C, config = {align = 'tl'}, nodes = {}},
         {n=G.UIT.C, config = {align = 'tl'}, nodes = {}},
     }}
-    local textures = SMODS.merge_lists({TexturePacks[texture].textures, TexturePacks[texture].toggle_textures})
+
+    local textures = SMODS.merge_lists({
+        TexturePacks[texture].textures or {},
+        TexturePacks[texture].toggle_textures or {}
+    })
         for i=#textures, 1, -1 do
             local current_toggle = EremelUtility.create_toggle({
                 label = localize({type = 'name_text', set = 'alt_texture', key = textures[i]}),
