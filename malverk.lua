@@ -111,7 +111,7 @@ function Malverk.update_atlas(atlas_type)
                                         G.shared_stickers[center] = Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS[texture.atlas and texture.atlas.key or 'stickers'], texture.columns and not texture.original_sheet and {x = (i-1) % texture.columns, y = math.floor((i-1)/texture.columns)} or G.default_stickers[center].sprite_pos)
                                     end
                                 end
-                                if texture.soul_keys and table.contains(texture.soul_keys, center) then
+                                if texture.soul_keys and table.contains(texture.soul_keys, center) and center ~= 'c_soul' then
                                     soul_count = soul_count + 1
                                     G[game_table][center].soul_pos = {x = (i+soul_count-1) % texture.columns, y = math.floor((i+soul_count-1)/texture.columns)}
                                 elseif G[game_table][center].soul_pos and center ~= 'c_soul' then
