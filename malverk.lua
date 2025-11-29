@@ -54,10 +54,18 @@ function Malverk.set_defaults()
                         G[game_table][center].set_card_type_badge = G[game_table][center].default_card_type_badge
                     end
 
-                    G[game_table][center].default_loc_txt = G[game_table][center].default_loc_txt or copy_table(G.localization.descriptions[AltTextures_Utils.loc_table[texture.set] or texture.set][center .. (texture.set == Seal and '_seal' or '')])
-                    local default_loc = G[game_table][center].default_loc_txt
-                    SMODS.process_loc_text(G.localization.descriptions[AltTextures_Utils.loc_table[texture.set] or texture.set][center .. (texture.set == Seal and '_seal' or '')], 'name', default_loc, 'name')
-                    SMODS.process_loc_text(G.localization.descriptions[AltTextures_Utils.loc_table[texture.set] or texture.set][center .. (texture.set == Seal and '_seal' or '')], 'text', default_loc, 'text')
+                    if texture.set == 'Booster' then
+                        local temp_center = center:sub(1, -3)
+                        G[game_table][center].default_loc_txt = G[game_table][center].default_loc_txt or copy_table(G.localization.descriptions.Other[temp_center])
+                        local default_loc = G[game_table][center].default_loc_txt
+                        SMODS.process_loc_text(G.localization.descriptions.Other[temp_center], 'name', default_loc, 'name')
+                        SMODS.process_loc_text(G.localization.descriptions.Other[temp_center], 'text', default_loc, 'text')
+                    else
+                        G[game_table][center].default_loc_txt = G[game_table][center].default_loc_txt or copy_table(G.localization.descriptions[AltTextures_Utils.loc_table[texture.set] or texture.set][center .. (texture.set == Seal and '_seal' or '')])
+                        local default_loc = G[game_table][center].default_loc_txt
+                        SMODS.process_loc_text(G.localization.descriptions[AltTextures_Utils.loc_table[texture.set] or texture.set][center .. (texture.set == Seal and '_seal' or '')], 'name', default_loc, 'name')
+                        SMODS.process_loc_text(G.localization.descriptions[AltTextures_Utils.loc_table[texture.set] or texture.set][center .. (texture.set == Seal and '_seal' or '')], 'text', default_loc, 'text')
+                    end
                     
                 end
             end
