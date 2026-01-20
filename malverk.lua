@@ -20,7 +20,7 @@ function Malverk.set_defaults()
                         G[game_table][center] = Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS['centers'], G.P_SEALS[center].default_pos)
                     else
                         G[game_table][center].default_atlas = G[game_table][center].default_atlas or G[game_table][center].atlas
-                        G[game_table][center].atlas = SMODS.get_atlas(G[game_table][center].default_atlas)
+                        G[game_table][center].atlas = G[game_table][center].default_atlas
                     end
                     if center == 'c_soul' then
                         G.default_soul = G.default_soul or Sprite(0, 0, G.CARD_W, G.CARD_H, G.ASSET_ATLAS["centers"], G.P_CENTERS.soul.pos)
