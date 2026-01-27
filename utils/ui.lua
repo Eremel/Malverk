@@ -1,4 +1,4 @@
-Malverk.joker_config = copy_table(G.P_CENTERS.j_joker)
+Malverk.joker_config = SMODS.shallow_copy(G.P_CENTERS.j_joker)
 
 function G.FUNCS.textures_button(e)
 	G.SETTINGS.paused = true
@@ -469,7 +469,7 @@ function create_texture_card(area, texture_pack)
         end
     end
     local card = Card(area.T.x, area.T.y, G.CARD_W, G.CARD_H,
-        nil, copy_table(Malverk.joker_config),
+        nil, SMODS.shallow_copy(Malverk.joker_config),
         {texture_pack = texture_pack})
     
     local layer = texture.animated and 'animatedSprite' or texture.set == 'Sticker' and 'front' or 'center'    
