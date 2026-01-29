@@ -367,7 +367,7 @@ function create_UIBox_texture_config(texture)
                 }},
                 -- Main Texture Select Display
                 {n=G.UIT.R, config = {colour = G.C.BLACK, r = 0.1, minh = 7.5, minw = 12, align = 'tm', padding = 0.5}, nodes = {
-                    {n=G.UIT.R, config = {align = 'tl'}, nodes ={
+                    {n=G.UIT.R, config = {align = 'tl', id = 'malverk_texture_toggles', malverk_texture = texture}, nodes ={
                         Malverk.texture_config_toggles(texture)
                     }},
                     -- Page cycler
@@ -375,7 +375,8 @@ function create_UIBox_texture_config(texture)
                         EremelUtility.page_cycler({
                             object_table = Malverk.config.texture_configs[texture],
                             page_size = 18,
-                            key = 'texture'
+                            key = 'texture',
+                            switch_func = Malverk.change_toggles
                         })
                     }},
                 }},
@@ -385,20 +386,27 @@ function create_UIBox_texture_config(texture)
     return t
 end
 
-Malverk.texture_config_toggles = function(texture)
+Malverk.change_toggles = function(pages)
+    local toggle_page = G.OVERLAY_MENU:get_UIE_by_ID('malverk_texture_toggles')
+    toggle_page:remove()
+    toggle_page.UIBox:add_child(Malverk.texture_config_toggles(toggle_page.config.malverk_texture, pages.to), toggle_page)
+end
+
+Malverk.texture_config_toggles = function(texture, page)
+    page = page or 1
     local toggles = {n=G.UIT.R, config = {align = 'tm'}, nodes = {
-        {n=G.UIT.C, config = {align = 'tl'}, nodes = {}},
-        {n=G.UIT.C, config = {align = 'tl'}, nodes = {}},
+        {n=G.UIT.C, config = {align = 'tl', minw = 5, maxw = 5, minh = 7}, nodes = {}},
+        {n=G.UIT.C, config = {align = 'tl', minw = 5, maxw = 5, minh = 7}, nodes = {}},
     }}
     local textures = SMODS.merge_lists({TexturePacks[texture].textures, TexturePacks[texture].toggle_textures})
-        for i=#textures, 1, -1 do
+        for i=math.min(#textures, page * 18), 1 + (page - 1)*18, -1 do
             local current_toggle = EremelUtility.create_toggle({
                 label = localize({type = 'name_text', set = 'alt_texture', key = textures[i]}),
                 ref_table = Malverk.config.texture_configs[texture],
                 ref_value = textures[i],
                 left = false,
             })
-            if i < 10 then 
+            if #toggles.nodes[1].nodes < 9 then 
                 toggles.nodes[1].nodes[#toggles.nodes[1].nodes + 1] = current_toggle
             else
                 toggles.nodes[2].nodes[#toggles.nodes[2].nodes + 1] = current_toggle
