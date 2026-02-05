@@ -101,7 +101,7 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
 	vec2 uv = (((texture_coords)*(image_details)) - texture_details.xy*texture_details.ba)/texture_details.ba;
 
     vec4 SAT = HSL(tex);
-    if (texture_selected.g > 0 || texture_selected.g < 0)
+    if (texture_selected.g > 0.0 || texture_selected.g < 0.0)
         SAT.g = 0.2 * SAT.g;
         SAT.b = SAT.b*0.4;
 
@@ -118,12 +118,12 @@ extern MY_HIGHP_OR_MEDIUMP float screen_scale;
 #ifdef VERTEX
 vec4 position( mat4 transform_projection, vec4 vertex_position )
 {
-    if (hovering <= 0.){
+    if (hovering <= 0.0){
         return transform_projection * vertex_position;
     }
     float mid_dist = length(vertex_position.xy - 0.5*love_ScreenSize.xy)/length(love_ScreenSize.xy);
     vec2 mouse_offset = (vertex_position.xy - mouse_screen_pos.xy)/screen_scale;
-    float scale = 0.2*(-0.03 - 0.3*max(0., 0.3-mid_dist))
+    float scale = 0.2*(-0.03 - 0.3*max(0.0, 0.3-mid_dist))
                 *hovering*(length(mouse_offset)*length(mouse_offset))/(2. -mid_dist);
 
     return transform_projection * vertex_position + vec4(0,0,0,scale);
