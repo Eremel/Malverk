@@ -399,7 +399,7 @@ Malverk.texture_config_toggles = function(texture, page)
         {n=G.UIT.C, config = {align = 'tl', minw = 5, maxw = 5, minh = 7}, nodes = {}},
     }}
     local textures = SMODS.merge_lists({TexturePacks[texture].textures, TexturePacks[texture].toggle_textures})
-        for i=math.min(#textures, page * 18), 1 + (page - 1)*18, -1 do
+        for i= 1 + (page - 1)*18, math.min(#textures, page * 18) do
             local current_toggle = EremelUtility.create_toggle({
                 label = localize({type = 'name_text', set = 'alt_texture', key = textures[i]}),
                 ref_table = Malverk.config.texture_configs[texture],
