@@ -101,7 +101,7 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
 	vec2 uv = (((texture_coords)*(image_details)) - texture_details.xy*texture_details.ba)/texture_details.ba;
 
     vec4 SAT = HSL(tex);
-    if (texture_selected.g > 0 || texture_selected.g < 0)
+    if (texture_selected.g > 0. || texture_selected.g < 0.)
         SAT.g = 0.2 * SAT.g;
         SAT.b = SAT.b*0.4;
 
