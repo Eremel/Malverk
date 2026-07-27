@@ -229,4 +229,15 @@ G.FUNCS.load_profile = function(delete_prof_data)
     load_profile_ref(delete_prof_data)
 end
 
-SMODS.Atlas.pre_inject_class = nil
+SMODS.Atlas.pre_inject_class = function (self)
+    for _, atlas in pairs(G.ASSET_ATLAS) do
+        atlas.atlas_table = "ASSET_ATLAS"
+        atlas.columns = atlas.image:getWidth() / atlas.px
+        atlas.rows = atlas.image:getHeight() / atlas.py
+    end
+    for _, atlas in pairs(G.ANIMATION_ATLAS) do
+        atlas.atlas_table = "ANIMATION_ATLAS"
+        atlas.columns = atlas.image:getWidth() / atlas.px
+        atlas.rows = atlas.image:getHeight() / atlas.py
+    end
+end

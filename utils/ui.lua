@@ -491,7 +491,7 @@ function create_texture_card(area, texture_pack)
     if texture.animated then
         card.T.w = W
         card.T.h = H
-        card.children.animatedSprite = AnimatedSprite(card.T.x, card.T.y, card.T.w, card.T.h, G.ANIMATION_ATLAS[texture.atlas.key], type(texture.display_pos) == 'table' and texture.display_pos or (texture.display_pos and (texture.original_sheet and G[game_table][texture.display_pos].default_pos or G[game_table][texture.display_pos].pos)) or G[game_table][texture.keys[1]].pos)
+        card.children.animatedSprite = SMODS.create_sprite(card.T.x, card.T.y, card.T.w, card.T.h, G.ANIMATION_ATLAS[texture.atlas.key], type(texture.display_pos) == 'table' and texture.display_pos or (texture.display_pos and (texture.original_sheet and G[game_table][texture.display_pos].default_pos or G[game_table][texture.display_pos].pos)) or G[game_table][texture.keys[1]].pos, texture.sprite_args)
         card.children.animatedSprite.T.w = W
         card.children.animatedSprite.T.h = H
         card.children.animatedSprite:set_role({major = card, role_type = 'Glued', draw_major = card})
