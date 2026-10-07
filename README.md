@@ -17,7 +17,7 @@ Once you have added Malverk as a dependency for your mod, you can define a new `
 ```lua
 AltTexture({
   key = 'example_texture', -- the key of the texture
-  set = 'Joker', -- define the object type that you are retexturing, see wiki for full list of types
+  set = 'Joker', -- define the object type that you are retexturing
   path = 'example_texture.png', -- the filename of your spritesheet, saved in assets/1x AND assets/2x
   loc_txt = { -- [NYI] Localization text for tooltips displayed in the texture selection screen - can be added to a localization file under [descriptions][alt_texture]
     name = 'Example Texture',

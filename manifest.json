@@ -1,12 +1,9 @@
 {
-    "name": "Malverk",
-    "id": "malverk",
-    "version": "1.1.5",
-    "website_url": "https://github.com/Eremel/Malverk",
-    "description": "Malverk is an all-in-one texture manager. With an inbuilt API for AltTextures and TexturePacks, Malverk integrates a simple UI to customise which textures are applied to your game whenever you wish.",
-    "prefix": "malverk",
-    "author": ["Eremel_"],
-    "main_file": "malverk.lua",
-    "priority": -999999,
-    "badge_colour": "3FC7EB"
+	"name": "Malverk",
+	"description": "Malverk is an all-in-one texture manager. With an inbuilt API for AltTextures and TexturePacks, Malverk integrates a simple UI to customise which textures are applied to your game whenever you wish.",
+	"version_number": "1.1.5",
+	"website_url": "https://github.com/Eremel/Malverk",
+	"dependencies": [
+		"Steamodded-Steamodded-26.1002.0"
+	]
 }
